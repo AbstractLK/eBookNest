@@ -1,0 +1,27 @@
+import { Link } from "react-router-dom"
+import Logo from '../assets/logo.png';
+
+export const Header = () => {
+    return (
+      <header>      
+          <nav className="bg-white dark:bg-gray-900">
+              <div className="border-b border-slate-200 dark:border-b-0 flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:pl-6 md:pr-9 py-3">
+                  <Link to="/" className="flex items-center">
+                      <img src={Logo} className="mr-3 h-10" alt="Logo" />
+                      <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">eBookNest</span>
+                  </Link>
+                  <div className="flex items-center space-x-5 relative">
+                      <span className="cursor-pointer text-lg text-gray-700 dark:text-white bi bi-moon-fill"></span>
+                      <span className="cursor-pointer text-lg text-gray-700 dark:text-white bi bi-search"></span>
+                      <Link to="/cart" className="text-gray-700 dark:text-white">
+                        <span className="text-xl bi bi-cart-fill relative">
+                            <span className="text-white text-sm absolute -top-1 left-2.5 bg-rose-500 px-1 rounded-full ">0</span>
+                        </span>                    
+                      </Link>
+                      <span className="bi bi-person-circle cursor-pointer text-xl text-gray-700 dark:text-white"></span>
+                  </div>
+              </div>
+          </nav>
+      </header>
+    )
+  }
