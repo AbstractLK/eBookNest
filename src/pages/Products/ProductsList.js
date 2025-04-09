@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import { ProductCard } from "../../components"
 import { FilterBar } from "./components/FilterBar"
 import { useLocation } from "react-router-dom";
+import { useTitle } from "../../hooks/useTitle";
 
 export const ProductsList = () => {
   const [filterBar, setFilterBar] = useState(false);
   const [products, setProducts] = useState([]);
+  useTitle("Explore eBooks");
 
   const search = useLocation().search;
   const searchTerm = new URLSearchParams(search).get('q');
@@ -13,6 +15,7 @@ export const ProductsList = () => {
   
     useEffect(() => {
       const fetchData = async () => {
+        // not working (?name_like) above versions of v 0.17.4
         const res = await fetch(`http://localhost:8000/products?name_like=${searchTerm ? searchTerm : ""}`);
         const data = await res.json();
         setProducts(data);
