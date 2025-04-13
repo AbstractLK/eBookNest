@@ -1,6 +1,10 @@
-export const Register = () => {
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-  const handleSubmit = async (e) => {
+export const Register = () => {
+    const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
     e.preventDefault();
     const userData = {
       name: e.target.name.value,
@@ -13,7 +17,7 @@ export const Register = () => {
       body: JSON.stringify(userData),
     });
     const data = await res.json();
-    console.log(data);
+    data.accessToken ? navigate('/products') : toast.error(data);
   };
 
   return (
@@ -23,7 +27,7 @@ export const Register = () => {
           Register
         </p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleRegister}>
           <div className="mb-6">
             <label
               htmlFor="name"
