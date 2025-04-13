@@ -45,7 +45,7 @@ export const FilterBar = ({ setFilterBar }) => {
         aria-modal="true"
         role="dialog"
       >
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-0">
           <h5
             id="drawer-disable-body-scrolling-label"
             className="text-lg font-bold text-gray-700 dark:text-gray-200"
@@ -100,7 +100,7 @@ export const FilterBar = ({ setFilterBar }) => {
                 Sort by
               </p>
 
-              <div className="space-y-2">
+              <div className="space-y-0">
                 <div className="flex items-center hover:bg-white dark:hover:bg-gray-700 p-2 rounded-md transition-colors duration-150">
                   <input
                     id="price-sort-1"
@@ -157,7 +157,7 @@ export const FilterBar = ({ setFilterBar }) => {
                 Rating
               </p>
 
-              <div className="space-y-2">
+              <div className="space-y-0">
                 <div className="flex items-center hover:bg-white dark:hover:bg-gray-700 p-2 rounded-md transition-colors duration-150">
                   <input
                     id="rating-sort-1"
@@ -301,7 +301,7 @@ export const FilterBar = ({ setFilterBar }) => {
                 Other Filters
               </p>
 
-              <div className="space-y-2">
+              <div className="space-y-0">
                 <div className="flex items-center hover:bg-white dark:hover:bg-gray-700 p-2 rounded-md transition-colors duration-150">
                   <input
                     id="best-seller"
