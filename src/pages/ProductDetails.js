@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Rating } from "../components";
 import { useTitle } from "../hooks/useTitle";
+import { useCart } from "../context";
 
 export const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
+  const [inCart, setInCart] = useState(false);
+  const { cartList, addToCart, removeFromCart } = useCart();
   useTitle(product.name);
 
   useEffect(() => {
@@ -16,6 +19,11 @@ export const ProductDetails = () => {
     };
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    const itemInCart = cartList.find((item) => product.id === item.id);
+    itemInCart ? setInCart(true) : setInCart(false);
+  }, [cartList, product.id]);
 
   return (
     <main>
@@ -61,12 +69,22 @@ export const ProductDetails = () => {
               </span>
             </p>
             <p className="my-3">
-              <button
-                className={`inline-flex items-center py-2 px-4 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800`}
-              >
-                Add To Cart <i className="ml-1 bi bi-plus-lg"></i>
-              </button>
-              {/* <button className={`inline-flex items-center py-2 px-5 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800`}  disabled={ product.in_stock ? "" : "disabled" }>Remove Item <i className="ml-1 bi bi-trash3"></i></button> */}
+              {inCart ? (
+                <button
+                  onClick={() => removeFromCart(product)}
+                  className={`inline-flex items-center py-2 px-5 text-lg font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800`}
+                  disabled={product.in_stock ? "" : "disabled"}
+                >
+                  Remove Item <i className="ml-1 bi bi-trash3"></i>
+                </button>
+              ) : (
+                <button
+                  onClick={() => addToCart(product)}
+                  className={`inline-flex items-center py-2 px-4 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800`}
+                >
+                  Add To Cart <i className="ml-1 bi bi-plus-lg"></i>
+                </button>
+              )}
             </p>
             <p className="text-base text-gray-900 dark:text-slate-200">
               {product.long_description}
