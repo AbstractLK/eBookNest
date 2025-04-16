@@ -4,7 +4,7 @@ import { useCart } from "../context";
 import { useEffect, useState } from "react";
 
 export const ProductCard = ({ product }) => {
-  const { id, name, overview, rating, price, best_seller, poster } = product;
+  const { id, name, overview, rating, price, best_seller, poster, in_stock } = product;
   const { addToCart, cartList, removeFromCart } = useCart();
   const [inCart, setInCart] = useState(false);
 
@@ -17,8 +17,13 @@ export const ProductCard = ({ product }) => {
     <div className="m-3 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <Link to={`/products/${id}`} className="relative">
         {best_seller && (
-          <span className="absolute top-4 left-2 px-2 bg-orange-500 bg-opacity-90 text-white rounded">
+          <span className="absolute top-4 left-2 px-2 py-0.5 bg-orange-500 bg-opacity-90 text-white rounded text-xs">
             Best Seller
+          </span>
+        )}
+        {!in_stock && (
+          <span className="absolute top-4 right-2 px-2 py-0.5 bg-red-500 bg-opacity-90 text-white rounded text-xs">
+            Out of Stock
           </span>
         )}
         <img className="rounded-t-lg w-full h-64" src={poster} alt="" />
@@ -52,7 +57,8 @@ export const ProductCard = ({ product }) => {
           ) : (
             <button
               onClick={() => addToCart(product)}
-              className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"
+              className={`inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 ${!in_stock ? "cursor-not-allowed" : ""}`}
+              disabled={!in_stock ? 'disabled' : "" }
             >
               Add To Cart <i className="ml-1 bi bi-plus-lg"></i>
             </button>
