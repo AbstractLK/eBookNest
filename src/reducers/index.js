@@ -1,1 +1,2 @@
-export {filterReducer} from './FilterReducer'
+export {filterReducer} from './filterReducer'
+export {cartReducer} from './cartReducer'
