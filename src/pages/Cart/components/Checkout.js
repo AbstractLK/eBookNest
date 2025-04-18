@@ -1,23 +1,47 @@
 import { useEffect, useState } from "react";
 import { useCart } from "../../../context"
+import { useNavigate } from "react-router-dom";
 
 export const Checkout = ({setCheckout}) => {
-    const {total} = useCart();
+    const {total, cartList, clearCart} = useCart();
     const [userData, setUserData] = useState({});
     const id = sessionStorage.getItem('uid');
     const token = sessionStorage.getItem('token');
+    const navigate = useNavigate();
+    // console.log(userData)
 
     useEffect(() => {
-        const getData = async () => {
+        const getUser = async () => {
             const res = await fetch(`http://localhost:8000/600/users/${id}`, {
                 method: "GET",
-                headers: {"Content-Type": "application/json", authorization: `Bearer ${token}`} 
+                headers: {"Content-Type": "application/json", Authorization: `Bearer ${token}`} 
             });
             const data = await res.json();
             setUserData(data);
         }
-        getData();
-    });
+        getUser();
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const data = {
+            cartList: cartList,
+            total: total,
+            quantity: cartList.length,
+            user: {
+                name: userData.name,
+                email: userData.email,
+                uid: userData.id,
+            }
+        }
+        await fetch('http://localhost:8000/660/orders/', {
+            method: "POST",
+            headers: {"Content-Type" : 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify(data)
+        });
+        clearCart();
+        navigate('/');
+    }
 
     return (
       <section>
@@ -35,14 +59,14 @@ export const Checkout = ({setCheckout}) => {
                       <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
                       <i className="bi bi-credit-card mr-2"></i>CARD PAYMENT
                       </h3>
-                      <form className="space-y-6" >
+                      <form className="space-y-6" onSubmit={handleSubmit}>
                       <div>
                           <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Name:</label>
-                          <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white" value={userData.name} disabled required="" />
+                          <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white" value={userData.name || "Name"} disabled required="" />
                       </div>
                       <div>
                           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email:</label>
-                          <input type="text" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white" value={userData.email} disabled required="" />
+                          <input type="text" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:value-gray-400 dark:text-white" value={userData.email || "example@mail.com"} disabled required="" />
                       </div>
                       <div>
                           <label htmlFor="card" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Card Number:</label>
