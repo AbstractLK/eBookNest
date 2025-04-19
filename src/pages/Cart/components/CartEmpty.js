@@ -11,7 +11,7 @@ export const CartEmpty = () => {
       <Link
         to="/products"
         type="button"
-        className="text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-base px-5 py-2.5 mr-2  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
+        className="text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
       >
         Continue Shopping <i className="ml-2 bi bi-cart"></i>
       </Link>
