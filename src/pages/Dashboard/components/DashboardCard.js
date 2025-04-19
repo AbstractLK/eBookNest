@@ -8,7 +8,7 @@ export const DashboardCard = ({order}) => {
               <span>Total: ${order.total}</span>
           </div>
           {order.cartList.map((item) => (
-            <div className="flex flex-wrap justify-between max-w-4xl m-auto p-2 my-5 ">
+            <div key={item.id} className="flex flex-wrap justify-between max-w-4xl m-auto p-2 my-5 ">
                 <div className="flex">
                     <Link to={`/products/${item.id}`}>
                         <img className="w-32 rounded" src={item.poster} alt={item.name} />

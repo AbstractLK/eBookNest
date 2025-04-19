@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Rating } from "../components";
 import { useTitle } from "../hooks/useTitle";
 import { useCart } from "../context";
+import { getProduct } from "../services";
 
 export const ProductDetails = () => {
   const { id } = useParams();
@@ -13,8 +14,7 @@ export const ProductDetails = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:8000/products/${id}`);
-      const data = await res.json();
+      const data = await getProduct(id);
       setProduct(data);
     };
     fetchData();

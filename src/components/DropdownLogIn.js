@@ -1,10 +1,21 @@
 import { Link, useNavigate } from "react-router-dom"
+import { getUser, logout } from "../services";
+import { useEffect, useState } from "react";
 
 export const DropdownLogIn = ({setShowMenu}) => {
     const navigate = useNavigate();
+    const [userData, setUserData] = useState({});
+
+    useEffect(() => {
+        async function fetchUserData(){
+            const data = await getUser();
+            data.email ? setUserData(data) : handleLogout();
+            
+        }
+        fetchUserData();
+    }, [])
     const handleLogout = () => {
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("uid");
+        logout();
         setShowMenu(false)
         navigate("/");
     }
@@ -12,7 +23,7 @@ export const DropdownLogIn = ({setShowMenu}) => {
     return (
       <div id="dropdownAvatar" className="select-none	absolute top-10 right-0 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
           <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
-              <div className="font-medium truncate">shubham@example.com</div>
+              <div className="font-medium truncate">{userData.email}</div>
           </div>
           <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
               <li>
