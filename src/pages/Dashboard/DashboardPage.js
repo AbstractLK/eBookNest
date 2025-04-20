@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DashboardCard } from './components/DashboardCard';
 import { DashboardEmpty } from './components/DashboardEmpty';
 import { getOrders } from '../../services';
+import { useTitle } from '../../hooks/useTitle'
+import { toast } from 'react-toastify';
 
 export const DashboardPage = () => {
+    useTitle('Dashboard');
     const [orders, setOrders] = useState([]);
     useEffect(() => {
         const fetchOrders = async () => {
-            const data = await getOrders();
-            setOrders(data);
+            try {
+                const data = await getOrders();
+                setOrders(data);                
+            } catch (error) {
+                toast.error(error.message);
+            }
         }
         fetchOrders();
     }, []);

@@ -4,18 +4,23 @@ import { Rating } from "../components";
 import { useTitle } from "../hooks/useTitle";
 import { useCart } from "../context";
 import { getProduct } from "../services";
+import { toast } from "react-toastify";
 
 export const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
+  useTitle(product.name);
   const [inCart, setInCart] = useState(false);
   const { cartList, addToCart, removeFromCart } = useCart();
-  useTitle(product.name);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getProduct(id);
-      setProduct(data);
+      try {
+        const data = await getProduct(id);
+        setProduct(data);
+      } catch (error) {
+        toast.error(error.message);
+      }
     };
     fetchData();
   }, [id]);
