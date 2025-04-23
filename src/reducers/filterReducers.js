@@ -1,5 +1,5 @@
 
-export const filterReducer = (state, action) => {
+export const filterReducers = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
