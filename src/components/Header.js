@@ -9,7 +9,7 @@ import { useCart } from "../context";
 export const Header = () => {
   const {cartList} = useCart();
   const [darkMode, setDarkMode] = useState(
-    JSON.parse(localStorage.getItem("darkMode")) || false
+    JSON.parse(localStorage.getItem("darkMode")) || true
   );
   const [searchSection, setSearchSection] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
